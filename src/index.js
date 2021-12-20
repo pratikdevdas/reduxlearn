@@ -2,20 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 
-/* const counterReducer = (state = 0,action) => {
-switch(action.type){
-  case 'INCREMENT':
-    return state + 1
-  case 'DECREMENT':
-    return state - 1
-  case 'ZERO':
-    return 0
-    default:
-
-
-    return state
-  }
-} */
 const noteReducer = (state=[],action)=>{
   if(action.type === 'NEW_NOTE'){
     state.push(action.data)
@@ -47,6 +33,7 @@ const App = () => {
   return (
     <div>
        <ul>
+      {/* mapping only note */}
         {store.getState().map(note=><li key ={note.id}>
           {note.content} <strong>{note.important ? 'important' : ''}</strong>
         </li>
@@ -55,7 +42,6 @@ const App = () => {
     </div>
   );
 }
-
 
 const renderApp = () => {
   ReactDOM.render(
