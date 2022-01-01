@@ -47,7 +47,6 @@ const renderApp = () => {
   ReactDOM.render(
     <App />,
   document.getElementById('root')
-                                                                                                                                                        
   )}
 
 renderApp()
