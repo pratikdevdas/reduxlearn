@@ -29,12 +29,45 @@ store.dispatch({
   }
 })
 
+const generateId = () => {
+  Math.floor(Math.random() * 1000000)
+}
+
 const App = () => {
+  const addNote = (event) =>{
+    event.preventDefault()
+    const content = event.target.note.value
+    event.target.note.value =''
+
+    store.dispatch({
+      type: 'NEW_NOTE',
+      data: {
+        content,
+        importtant: false,
+        id: generateId()
+      }
+    })
+  } 
+
+  const toggleImportance = (id) => {
+    store.dispatch(
+      {
+        type: 'TOGGLE_IMPORTANCE',
+        data: {id}
+    }
+    )
+  }
+
   return (
     <div>
+      <form onSubmit={addNote}>
+        <input name="note" />
+        <button type='submit'>add</button>
+      </form>
        <ul>
       {/* mapping only note */}
-        {store.getState().map(note=><li key ={note.id}>
+        {store.getState().map(note=><li key ={note.id}
+        onClick={()=> toggleImportance(note.id)}>
           {note.content} <strong>{note.important ? 'important' : ''}</strong>
         </li>
         )}
@@ -47,7 +80,7 @@ const renderApp = () => {
   ReactDOM.render(
     <App />,
   document.getElementById('root')
-  )}
-
+  )
+}
 renderApp()
 store.subscribe(renderApp)
