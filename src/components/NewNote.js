@@ -1,8 +1,8 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import {createNote} from '../reducers/noteReducer'
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import { createNote } from '../reducers/noteReducer'
 
-const NewNote = (props) => {
+const NewNote = () => {
     const dispatch = useDispatch()
 
     const addNote = (event) => {
@@ -10,11 +10,11 @@ const NewNote = (props) => {
         const content = event.target.note.value
         event.target.note.value = ''
         dispatch(createNote(content))
-    }
-
+      }
+      
     return(
         <form onSubmit={addNote}>
-            <input type="note" />
+            <input name="note" />
             <button type="submit">add</button>
         </form>
     )
