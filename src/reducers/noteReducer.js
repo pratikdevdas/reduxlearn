@@ -1,17 +1,6 @@
-const initialNotes = [
-  {
-    content: 'reducer defines how redux store works',
-    important: true,
-    id:1,
-  },
-  {
-    content: 'state of store can contain any data',
-    important: false,
-    id:2,
-  },
-]
+import noteService from "../services/notes"
 
-const noteReducer = (state=initialNotes,action)=>{
+const noteReducer = (state=[],action)=>{
     switch(action.type){
       case 'NEW_NOTE':
         // return state.concat(action.data)
@@ -27,23 +16,31 @@ const noteReducer = (state=initialNotes,action)=>{
           note.id !== id ? note : changedNote
           )
     }
+    case 'INIT_NOTES':
+      return action.data
     default:
       return state
   }
 }
 
-const generateId = () =>
-  Number((Math.random() * 1000000).toFixed(0))
+export const initializeNotes = () => {
+    return async dispatch => {
+      const notes = await noteService.getAll()
+      dispatch({
+      type: 'INIT_NOTES',
+      data: notes,
+    })
+  }
+}
 
 export const createNote = (content) => {
-  return {
+  return async dispatch => {
+    const newNote = await noteService.createNew(content)
+  dispatch({
     type: 'NEW_NOTE',
-    data: {
-      content,
-      important: false,
-      id: generateId()
-    }
-  }
+    data: newNote,
+  })
+}
 }
 
 export const toggleImportanceOf = (id) => {
@@ -54,7 +51,6 @@ export const toggleImportanceOf = (id) => {
 }
 
 export default noteReducer
-
 
 /* Array Spread Method
 const number = [1,2,3]
