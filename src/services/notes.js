@@ -12,7 +12,9 @@ const createNew = async(content) => {
     return response.data
 }
 
-export default {
+const logger = {
     getAll,
     createNew,
 }
+
+export default logger
