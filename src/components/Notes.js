@@ -13,29 +13,27 @@ const Note = ({note,handleClick}) => {
 
 const Notes = () => {
     const dispatch = useDispatch()
-    const notes = useSelector(state => {
-        if(state.filter === 'ALL'){
-            return state.notes
-        }
-        return state.filter === 'IMPORTANT'
-        ? state.notes.filter(note => note.important)
-        : state.notes.filter(note => !note.important)
-        })
-
-    return (
-        <div>
-            <ul>
-                {notes.map(note => 
-                    <Note 
-                    key={note.id}
-                    note={note}
-                    handleClick={() => dispatch(toggleImportanceOf(note.id))}
-                    />
-                )}
-            
-            </ul>            
-        </div>
+    const notes = useSelector(({ filter, notes }) => {
+      if ( filter === 'ALL' ) {
+        return notes
+      }
+      return filter  === 'IMPORTANT' 
+        ? notes.filter(note => note.important)
+        : notes.filter(note => !note.important)
+    })
+  
+    return(
+      <ul>
+        {notes.map(note =>
+          <Note
+            key={note.id}
+            note={note}
+            handleClick={() => 
+              dispatch(toggleImportanceOf(note.id))
+            }
+          />
+        )}
+      </ul>
     )
-}
-
+  }
 export default Notes
